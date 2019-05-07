@@ -1,0 +1,11 @@
+from django.urls import path
+from djangodemo.views import LeagueView
+
+urlpatterns = [
+    path('', LeagueView.index, name='index'),
+	path('create', LeagueView.get, name='create'),
+	path('get/<int:leagueId>/', LeagueView.get, name='get'),
+	path('save', LeagueView.save, name='save'),
+	path('getAll', LeagueView.getAll, name='getAll'),
+	path('delete/<int:leagueId>/', LeagueView.delete, name='delete'),
+]

@@ -1,0 +1,29 @@
+language: python
+
+python:
+  - 3.7
+
+build:
+  cache:  true
+  ci:
+
+    - '[ $EUID == 0 ] && SUDO="" || SUDO=sudo'
+    - $SUDO pip install pipenv
+    - pipenv install
+    - pipenv install Django
+    - pipenv install pytest-django
+    - pipenv run pytest --junitxml=shippable/testresults/junit.xml djangodemo/tests
+    - cd djangodemo
+    - echo creating distribution
+    - python setup.py sdist    
+    - echo -e "[distutils]" >> ~/.pypirc
+    - echo -e "index-servers = nexusRepo" >> ~/.pypirc
+    - echo -e "[nexusRepo]" >> ~/.pypirc
+    - echo -e "username = admin" >> ~/.pypirc
+    - echo -e "password = letmein2" >> ~/.pypirc
+    - echo -e "repository = http://18.235.138.220:8081/repository/simple/" >> ~/.pypirc    
+    - echo installing twine
+    - pip install twine
+    - echo upload archive to nexusRepo repo
+    - twine upload -r nexusRepo dist/*.gz
+
