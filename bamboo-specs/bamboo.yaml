@@ -5,7 +5,7 @@ plan:
   key: ROCKET
   name: Build the rockets
 
-# List of plan's stages and jobs
+# List of plan's stages and jobs 
 stages:
   - Build the rocket stage:
     - Build
